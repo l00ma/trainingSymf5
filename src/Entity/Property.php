@@ -5,8 +5,11 @@ namespace App\Entity;
 use App\Repository\PropertyRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Cocur\Slugify\Slugify;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PropertyRepository::class)]
+#[UniqueEntity('title')]
 class Property
 {
     const HEAT = [
@@ -21,12 +24,19 @@ class Property
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\Length(
+        min: 5,
+        max: 255,
+        minMessage: 'Vous devez saisir au moins {{ limit }} caractères',
+        maxMessage: 'Vous devez saisir au plus {{ limit }} caractères',
+    )]
     private $title;
 
     #[ORM\Column(type: 'text', nullable: true)]
     private $description;
 
     #[ORM\Column(type: 'integer')]
+    #[Assert\Range(min: 10, max: 400, notInRangeMessage: 'Vous devez choisir une valeur entre {{ min }} et {{ max }}',)]
     private $surface;
 
     #[ORM\Column(type: 'integer')]
@@ -51,9 +61,10 @@ class Property
     private $address;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\Regex('/^[0-9]{5}$/')]
     private $postal_code;
 
-    #[ORM\Column(type: 'boolean', options :['default'=>false])]
+    #[ORM\Column(type: 'boolean', options: ['default' => false])]
     private $sold = false;
 
     #[ORM\Column(type: 'datetime')]
@@ -178,7 +189,7 @@ class Property
 
     public function getHeatType(): string
     {
-        return self::HEAT[$this->heat];   
+        return self::HEAT[$this->heat];
     }
 
     public function getCity(): ?string
