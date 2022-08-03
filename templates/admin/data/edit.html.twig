@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body%}
+
+	<div class="container mt-4">
+		<h2>Modifier vos identifiants</h2>
+		<div class="container mt-4">
+			{{ include('admin/data/_form.html.twig', {form: form, button: 'Modifier'}) }}
+		</div>
+	</div>
+
+
+{% endblock %}

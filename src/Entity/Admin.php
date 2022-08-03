@@ -54,11 +54,6 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
         return (string) $this->username;
     }
 
-    public function __toString(): string
-    {
-        return $this->username;
-    }
-
     /**
      * @see UserInterface
      */
