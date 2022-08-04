@@ -20,6 +20,7 @@ class AdminType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Admin::class,
+            'translation_domain' => 'forms'
         ]);
     }
 }
