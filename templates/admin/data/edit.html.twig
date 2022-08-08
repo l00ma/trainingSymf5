@@ -3,9 +3,35 @@
 {% block body%}
 
 	<div class="container mt-4">
+		{% for message in app.flashes('error') %}
+			<div class="alert alert-danger">
+				{{ message }}
+			</div>
+		{% endfor %}
+		{% for message in app.flashes('success') %}
+			<div class="alert alert-success">
+				{{ message }}
+			</div>
+		{% endfor %}
 		<h2>Modifier vos identifiants</h2>
 		<div class="container mt-4">
-			{{ include('admin/data/_form.html.twig', {form: form, button: 'Modifier'}) }}
+			<form method="post" action="#">
+				<div class="column">
+					<div class="col-md-4">
+						<label for="user">Nom d'utilisateur</label>
+						<input type="text" id="user" name="user" value="{{ app.user.username }}" class="form-control">
+					</div>
+					<div class="col-md-4">
+						<label for="pass1">Nouveau mot de passe</label>
+						<input type="text" id="pass1" name="pass1" class="form-control">
+					</div>
+					<div class="col-md-4">
+						<label for="pass2">Confirmez le mot de passe</label>
+						<input type="text" id="pass2" name="pass2" class="form-control">
+					</div>
+					<button class="btn btn-primary">Confirmer</button>
+				</div>
+			</form>
 		</div>
 	</div>
 

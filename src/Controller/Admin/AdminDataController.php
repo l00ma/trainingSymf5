@@ -3,18 +3,15 @@
 namespace App\Controller\Admin;
 
 use App\Repository\AdminRepository;
-use App\Entity\Admin;
-use App\Form\AdminType;
+//use App\Form\AdminType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AdminDataController extends AbstractController
 {
-    // id admin
-    private const ID = 1;
 
     /**
      * @var AdminRepository
@@ -27,41 +24,31 @@ class AdminDataController extends AbstractController
         $this->em = $em;
     }
 
-    // /**
-    //  * @Route("/admin/edit", name="admin.edit.index")
-    //  * @return \Symfony\Componenet\HttpFoundation\Response
-    //  */
-    // public function index()
-    // {
-    //     $admindatas = $this->repository->find(1);
-    //     #$admindatas = $this->repository->findAll();
-    //     #$admindatas = compact('admindatas');
-    //     return new Response(var_dump($admindatas));
-    //     #return $this->render('admin/data/index.html.twig', compact('admindatas'));
-    // }
-
-
     /**
      * @Route("/admin/data", name="admin.data.edit", methods="GET|POST")
-     * @param Admin $admin
-     * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function edit(Request $request)
+    public function edit(Request $request, UserPasswordHasherInterface $passwordEncoder)
     {
-        $admin = $this->repository->find(self::ID);
-        $form = $this->createForm(AdminType::class, $admin);
-        // return new Response($request-));
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->em->flush();
-            $this->addFlash('success', 'Données modifiées avec succès');
-            return $this->redirectToRoute('admin.property.index');
+        $admin = $this->getUser();
+        if ($request->isMethod('POST')) {
+            if (!empty($request->request->get('user'))) {
+                if (!empty($request->request->get('pass1')) or !empty($request->request->get('pass2'))) {
+                    if ($request->request->get('pass1') == $request->request->get('pass2')) {
+                        $admin->setUsername($request->request->get('user'));
+                        $admin->setPassword($passwordEncoder->hashPassword($admin, $request->request->get('pass1')));
+                        $this->em->flush();
+                        $this->addFlash('success', 'Les modifications ont été effectuées');
+                    } else {
+                        $this->addFlash('error', 'Les 2 mots de passe sont différents');
+                    }
+                } else {
+                    $this->addFlash('error', 'Le mot de passe ne doit pas être vide');
+                }
+            } else {
+                $this->addFlash('error', 'Vous devez saisir un nom d\'utilisateur');
+            }
         }
 
-        return $this->render('admin/data/edit.html.twig', [
-            'admin' => $admin,
-            'form' => $form->createView()
-        ]);
+        return $this->render('admin/data/edit.html.twig');
     }
 }
