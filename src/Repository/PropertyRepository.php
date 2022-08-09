@@ -6,6 +6,7 @@ use App\Entity\Property;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\Query;
 
 /**
  * @extends ServiceEntityRepository<Property>
@@ -25,26 +26,25 @@ class PropertyRepository extends ServiceEntityRepository
 
 
     /**
-    * @return Property[]
-    */
+     * @return Query
+     */
 
-    public function findAllVisible(): array
+    public function findAllVisibleQuery(): Query
     {
         return $this->findVisibleQuery()
-        ->getQuery()
-        ->getResult();
+            ->getQuery();
     }
 
-     /**
-    * @return Property[]
-    */
+    /**
+     * @return Property[]
+     */
 
     public function findLatest(): array
     {
         return $this->findVisibleQuery()
-        ->setMaxResults(4)
-        ->getQuery()
-        ->getResult();
+            ->setMaxResults(4)
+            ->getQuery()
+            ->getResult();
     }
 
     // public function add(Property $entity, bool $flush = false): void
@@ -68,31 +68,31 @@ class PropertyRepository extends ServiceEntityRepository
     private function findVisibleQuery(): QueryBuilder
     {
         return $this->createQueryBuilder('p')
-        ->where('p.sold = false');
+            ->where('p.sold = false');
     }
 
-//    /**
-//     * @return Property[] Returns an array of Property objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    //    /**
+    //     * @return Property[] Returns an array of Property objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('p')
+    //            ->andWhere('p.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('p.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
 
-//    public function findOneBySomeField($value): ?Property
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    //    public function findOneBySomeField($value): ?Property
+    //    {
+    //        return $this->createQueryBuilder('p')
+    //            ->andWhere('p.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }
