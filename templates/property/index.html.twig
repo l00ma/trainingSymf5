@@ -2,10 +2,10 @@
 {% block title 'Tous nos biens' %}
 
 {% block body%}
-	<div class="jumbotron">
+	<div class="bg-light p-5 rounded-lg m-3">
 		<div class="container">
 			{{form_start(form)}}
-			<div class="form-row">
+			<div class="row align-items-end">
 				<div class="col">
 					{{ form_row(form.minSurface)}}
 				</div>
@@ -13,7 +13,20 @@
 					{{ form_row(form.maxPrice)}}
 				</div>
 				<div class="col">
-					<button class="btn" btn-primary>Rechercher</button>
+					<div class="form-group">
+						<button class="btn btn-primary">Rechercher</button>
+					</div>
+				</div>
+				<div class="col text-primary" style="font-size: 2rem; font-weight: bold;">
+					{% if properties.getTotalItemCount == 0 %}
+						Aucun résultat
+					{% elseif properties.getTotalItemCount == 1 %}
+						{{properties.getTotalItemCount}}
+						résultat
+					{% else %}
+						{{properties.getTotalItemCount}}
+						résultats
+					{% endif %}
 				</div>
 			</div>
 			{{form_end(form)}}

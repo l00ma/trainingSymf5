@@ -3,8 +3,9 @@
 {% block title property.title %}
 
 {% block body %}
-
-	<div class="jubotron">
+	<div
+		class="bg-light p-5 rounded-lg m-3">
+		{#remplace jumbotron #}
 		<div class="container">
 			<div class="row">
 				<div class="col-md-8"></div>
@@ -13,7 +14,7 @@
 					<h2>{{ property.rooms }}
 						pièces -
 						{{ property.surface }}
-						m2</h2>
+						m²</h2>
 					<div class="text-primary" style="font-size: 4rem; font-weight: bold;">{{ property.formattedPrice }}
 						€</div>
 					<a href="#" class="btn btn-primary">Contacter l'agence</a>
@@ -30,7 +31,7 @@
 					<tr>
 						<td>surface habitable</td>
 						<td>{{ property.surface }}
-							m2</td>
+							m²</td>
 					</tr>
 					<tr>
 						<td>Pièces</td>

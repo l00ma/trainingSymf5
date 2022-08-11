@@ -2,18 +2,20 @@
 
 namespace App\Entity;
 
-use Prophecy\Prophet;
+use \Symfony\Component\Validator\Constraints as Asserts;
 
 class PropertySearch
 {
 
     /**
      * @var int|null
+     * @Asserts\Range(min=1000) 
      */
     private $maxPrice;
 
     /**
      * @var int|null
+     * @Asserts\Range(min=10, max=400) 
      */
     private $minSurface;
 
