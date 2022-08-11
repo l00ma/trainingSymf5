@@ -6,23 +6,29 @@
 		<div class="container">
 			{{form_start(form)}}
 			<div class="row align-items-end">
-				<div class="col">
+				<div class="col-md-2">
 					{{ form_row(form.minSurface)}}
 				</div>
-				<div class="col">
+				<div class="col-md-2">
+					{{ form_row(form.maxSurface)}}
+				</div>
+				<div class="col-md-2">
 					{{ form_row(form.maxPrice)}}
 				</div>
-				<div class="col">
+				<div class="col-md-2">
 					<div class="form-group">
 						<button class="btn btn-primary">Rechercher</button>
+						<a href="{{ path('property.index') }}" class="btn btn-secondary">Annuler</a>
 					</div>
 				</div>
 				<div class="col text-primary" style="font-size: 2rem; font-weight: bold;">
-					{% if properties.getTotalItemCount == 0 %}
-						Aucun résultat
-					{% elseif properties.getTotalItemCount == 1 %}
-						{{properties.getTotalItemCount}}
-						résultat
+					{% if properties.getTotalItemCount < 2 %}
+						{% if properties.getTotalItemCount == 0 %}
+							Aucun résultat
+						{% elseif properties.getTotalItemCount == 1 %}
+							{{properties.getTotalItemCount}}
+							résultat
+						{% endif %}
 					{% else %}
 						{{properties.getTotalItemCount}}
 						résultats

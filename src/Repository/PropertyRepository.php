@@ -44,6 +44,11 @@ class PropertyRepository extends ServiceEntityRepository
                 ->andWhere('p.surface >= :minsurface')
                 ->setParameter('minsurface', $search->getMinSurface());
         }
+        if ($search->getMaxSurface()) {
+            $query = $query
+                ->andWhere('p.surface <= :maxsurface')
+                ->setParameter('maxsurface', $search->getMaxSurface());
+        }
 
         return $query->getQuery();
     }
