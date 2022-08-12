@@ -26,6 +26,12 @@ class PropertySearch
     private $maxSurface;
 
     /**
+     * @var int|null
+     * @Asserts\Range(min=1, max=10) 
+     */
+    private $nbrRooms;
+
+    /**
      * @return int|null
      */
     public function getMaxPrice(): ?int
@@ -40,6 +46,24 @@ class PropertySearch
     public function setMaxPrice(int $maxPrice): PropertySearch
     {
         $this->maxPrice = $maxPrice;
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getNbrRooms(): ?int
+    {
+        return $this->nbrRooms;
+    }
+
+    /**
+     * @param int|null $nbrRooms
+     * @return PropertySearch
+     */
+    public function setNbrRooms(int $nbrRooms): PropertySearch
+    {
+        $this->nbrRooms = $nbrRooms;
         return $this;
     }
 

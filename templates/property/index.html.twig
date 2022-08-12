@@ -12,6 +12,9 @@
 				<div class="col-md-2">
 					{{ form_row(form.maxSurface)}}
 				</div>
+				<div class="col-md-1">
+					{{ form_row(form.nbrRooms)}}
+				</div>
 				<div class="col-md-2">
 					{{ form_row(form.maxPrice)}}
 				</div>
@@ -21,7 +24,7 @@
 						<a href="{{ path('property.index') }}" class="btn btn-secondary">Annuler</a>
 					</div>
 				</div>
-				<div class="col text-primary" style="font-size: 2rem; font-weight: bold;">
+				<div class="col-md-3 text-primary" style="font-size: 2rem; font-weight: bold;">
 					{% if properties.getTotalItemCount < 2 %}
 						{% if properties.getTotalItemCount == 0 %}
 							Aucun résultat

@@ -17,14 +17,21 @@ class PropertySearchType extends AbstractType
                 'required' => false,
                 'label' => false,
                 'attr' => [
-                    'placeholder' => 'surface mini'
+                    'placeholder' => 'surf mini'
                 ]
             ])
             ->add('maxSurface', IntegerType::class, [
                 'required' => false,
                 'label' => false,
                 'attr' => [
-                    'placeholder' => 'surface maxi'
+                    'placeholder' => 'surf maxi'
+                ]
+            ])
+            ->add('nbrRooms', IntegerType::class, [
+                'required' => false,
+                'label' => false,
+                'attr' => [
+                    'placeholder' => 'pièces'
                 ]
             ])
             ->add('maxPrice', IntegerType::class, [
