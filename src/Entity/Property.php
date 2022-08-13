@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PropertyRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Cocur\Slugify\Slugify;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -70,9 +72,13 @@ class Property
     #[ORM\Column(type: 'datetime')]
     private $created_at;
 
+    #[ORM\ManyToMany(targetEntity: Spec::class, inversedBy: 'properties')]
+    private $specs;
+
     public function __construct()
     {
         $this->created_at = new \DateTime();
+        $this->specs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -248,6 +254,33 @@ class Property
     public function setCreatedAt(\DateTimeInterface $created_at): self
     {
         $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Spec>
+     */
+    public function getSpecs(): Collection
+    {
+        return $this->specs;
+    }
+
+    public function addSpec(Spec $spec): self
+    {
+        if (!$this->specs->contains($spec)) {
+            $this->specs[] = $spec;
+            $spec->addProperty($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSpec(Spec $spec): self
+    {
+        if ($this->specs->removeElement($spec)) {
+            $spec->removeProperty($this);
+        }
 
         return $this;
     }
