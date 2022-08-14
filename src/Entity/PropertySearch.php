@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use \Symfony\Component\Validator\Constraints as Asserts;
 
 class PropertySearch
@@ -30,6 +31,16 @@ class PropertySearch
      * @Asserts\Range(min=1, max=10) 
      */
     private $nbrRooms;
+
+    /**
+     * @var arrayCollection
+     */
+    private $options;
+
+    public function __construct()
+    {
+        $this->options = new ArrayCollection();
+    }
 
     /**
      * @return int|null
@@ -101,5 +112,21 @@ class PropertySearch
     {
         $this->maxSurface = $maxSurface;
         return $this;
+    }
+
+    /**
+     * @return arrayCollection 
+     */
+    public function getOptions(): ArrayCollection
+    {
+        return $this->options;
+    }
+
+    /**
+     * @param arrayCollection $options
+     */
+    public function setOptions(ArrayCollection $options): void
+    {
+        $this->options = $options;
     }
 }

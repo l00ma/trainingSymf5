@@ -54,6 +54,15 @@ class PropertyRepository extends ServiceEntityRepository
                 ->andWhere('p.rooms = :nbrrooms')
                 ->setParameter('nbrrooms', $search->getNbrRooms());
         }
+        if ($search->getOptions()->count() > 0) {
+            $k = 0;
+            foreach ($search->getOptions() as $spec) {
+                $k++;
+                $query = $query
+                    ->andWhere(":spec$k MEMBER OF p.specs")
+                    ->setParameter("spec$k", $spec);
+            }
+        }
 
         return $query->getQuery();
     }
