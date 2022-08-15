@@ -54,6 +54,12 @@
 			</div>
 			<div class="col-md-4">
 				<h2>Spécificités</h2>
+				{% for properties in property.specs %}
+					<div class="col-md-4">
+						-
+						{{ properties.name}}
+					</div>
+				{% endfor %}
 			</div>
 		</div>
 	</div>

@@ -4,7 +4,6 @@ namespace App\Controller\Admin;
 
 use App\Repository\PropertyRepository;
 use App\Entity\Property;
-use App\Entity\Spec;
 use App\Form\PropertyType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
