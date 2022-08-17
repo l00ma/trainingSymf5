@@ -9,9 +9,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Cocur\Slugify\Slugify;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 #[ORM\Entity(repositoryClass: PropertyRepository::class)]
 #[UniqueEntity('title')]
+#[Vich\Uploadable]
 class Property
 {
     const HEAT = [
@@ -24,6 +28,12 @@ class Property
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private ?string $filename = null;
+
+    #[Vich\UploadableField(mapping: 'property_image', fileNameProperty: 'filename')]
+    private ?File $imageFile = null;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\Length(
@@ -74,6 +84,9 @@ class Property
 
     #[ORM\ManyToMany(targetEntity: Spec::class, inversedBy: 'properties')]
     private $specs;
+
+    #[ORM\Column(type: 'datetime_immutable')]
+    private $updated_at;
 
     public function __construct()
     {
@@ -281,6 +294,59 @@ class Property
         if ($this->specs->removeElement($spec)) {
             $spec->removeProperty($this);
         }
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getFilename(): ?string
+    {
+        return $this->filename;
+    }
+
+    /**
+     * @param null|string $filename
+     * @return Property
+     */
+    public function setFilename(?string $filename): Property
+    {
+        $this->filename = $filename;
+
+        return $this;
+    }
+
+    /**
+     * @return null|File
+     */
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @param null|File $imageFile
+     * @return Property
+     */
+    public function setImageFile(?File $imageFile): Property
+    {
+        $this->imageFile = $imageFile;
+        if ($this->imageFile instanceof UploadedFile) {
+            $this->updated_at = new \DateTimeImmutable;
+        }
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(\DateTimeImmutable $updated_at): self
+    {
+        $this->updated_at = $updated_at;
 
         return $this;
     }
