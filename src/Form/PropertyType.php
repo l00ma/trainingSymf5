@@ -10,6 +10,8 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 class PropertyType extends AbstractType
 {
@@ -31,7 +33,16 @@ class PropertyType extends AbstractType
                 'multiple' => true
             ])
             ->add('imageFile', FileType::class, [
-                'required' => false
+                'required' => false,
+                'attr' => [
+                    'accept' => 'image/jpeg',
+                ],
+                'constraints' => [
+                    new Assert\File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => 'image/jpeg',
+                    ]),
+                ],
             ])
             ->add('city')
             ->add('address')

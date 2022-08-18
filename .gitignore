@@ -7,7 +7,8 @@
 /public/bundles/
 /public/adminer.php
 /public/phpinfo.php
-/public/images/properties/
+/public/images
+/public/media
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
@@ -21,3 +22,7 @@
 .phpunit.result.cache
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
+
+###> liip/imagine-bundle ###
+/public/media/cache/
+###< liip/imagine-bundle ###
