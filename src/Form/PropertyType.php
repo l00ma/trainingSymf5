@@ -25,7 +25,9 @@ class PropertyType extends AbstractType
             ->add('bedrooms')
             ->add('floor')
             ->add('price')
-            ->add('heat', ChoiceType::class, ['choices' => $this->getChoices()])
+            ->add('heat', ChoiceType::class, [
+                'choices' => $this->getChoices()
+            ])
             ->add('specs', EntityType::class, [
                 'class' => Spec::class,
                 'required' => false,
@@ -43,6 +45,7 @@ class PropertyType extends AbstractType
                         'mimeTypes' => 'image/jpeg',
                     ]),
                 ],
+                'label' => 'Ajouter une image',
             ])
             ->add('city')
             ->add('address')

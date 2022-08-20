@@ -85,7 +85,7 @@ class Property
     #[ORM\ManyToMany(targetEntity: Spec::class, inversedBy: 'properties')]
     private $specs;
 
-    #[ORM\Column(type: 'datetime_immutable')]
+    #[ORM\Column(type: 'datetime')]
     private $updated_at;
 
     public function __construct()
